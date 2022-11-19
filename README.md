@@ -1,10 +1,12 @@
 ### START
 
 ## Paidy Restaurant Service
+
 ---
 ### Introduction
-
+>
 Create a restaurant application which accepts menu items from various serving staff in the restaurant. This application must then store the item along with a cooking time for the item to be completed. The application must be able to give a quick snapshot of any or all items on its list at any time. It must also be able to remove specific orders from the list of orders on demand.
+>
 ---
 
 ### Requirements
@@ -28,10 +30,11 @@ Create a restaurant application which accepts menu items from various serving st
 - The API is up to the developer. HTTP REST is acceptable, but direct API calls are also acceptable if they mimic an HTTP REST-like API (e.g. api_call1(string id, string resource), etc.).
 
 ### My Assumptions
-- To fulfill your requirements I used Jax-rs since I can handle database functions as you requested, otherwise I should have gone with a framework like Spring Boot
+- To fulfill your requirements I used Jax-rs since I can handle database functions as you requested, otherwise I would have gone with a newer framework like Spring Boot
 - Since this is a demo App, all configurations stored in a Java class for the simplicity (those data should store in a database or a config server in real life)
 - Used basic auth 
-
+- Wrote few Junit test cases just to demo
+- Although you ask for a production ready application, in the limited time I have tried to cover the basic requirements.
 
 ---
 
@@ -62,14 +65,15 @@ Create a restaurant application which accepts menu items from various serving st
 - server.port=8080(default)
 
 - database = paidy
-- db username = 
-- db password = 
+- db username = paidy
+- db password = password
 - refer SystemConfig class for more configs
 > 
 
 
 ### Once you complete the configuring project you can run the project 
-> To run the project you can use either the IDE or an application server to deploy the restaurant.war file
+- Run the application on IDE
+- Deploy restaurant.war on application server and run the app
 
 --- 
 
