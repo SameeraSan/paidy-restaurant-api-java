@@ -29,11 +29,16 @@ Create a restaurant application which accepts menu items from various serving st
   t event log for this.
 ---
 
-### Assumptions
+### Given Assumptions
 - The time to prepare does not have to be kept up-to-date. It can also just be generated as some random amount of time between 5 and 15 minutes and kept static from then on.
 - The table and items can be identified in any chosen manner, but it has to be consistent. So if a request comes in for table "4", for example, any other requests for table "4" must refer to the same table.
 - Clients can be simulated as simple threads in a main() function calling the main server application with a variety of requests. There should be more than one, preferably around 5-10 running at any one time.
 - The API is up to the developer. HTTP REST is acceptable, but direct API calls are also acceptable if they mimic an HTTP REST-like API (e.g. api_call1(string id, string resource), etc.).
+
+### My Assumptions
+- To fulfill your requirements I used Jax-rs since I can handle database functions as you requested, otherwise I should have gone with a framework like Spring Boot
+- Since this is a demo App, all configurations stored in a Java class for the simplicity (those data should store in a database or a config server in real life)
+- Used basic auth 
 
 
 ---
@@ -42,56 +47,37 @@ Create a restaurant application which accepts menu items from various serving st
 
 ### Requirements
 
-- Java 17
-- IDE (IntelliJ)
-- H2 in memory database
-- Container environment (Docker)
+- JDK 11
+- IDE (eclipse)
+- Maven
+- PostgreSQL
+- Application server (Tomcat)
 - Test tool (Postman)
 ---
 
 #### How to build
 
-- Clone the Main branch from  GIT - https://github.com/SameeraSan/Musala_Drone_Task.git
-- Import the project to intelliJ
+- Clone the Main branch from  GIT - https://github.com/SameeraSan/paidy-restaurant-api-java
+- Import the project to eclipse
 - Configure the application.properties (refer application.property Configure section)
 - Update Maven
 - Maven build
+- Create database with the name = **paidy**
+- Run database scripts in **Database_scripts.sql** file under resources
 
-### application.property Configure
+### Configure
 
-- server.port=5569
+- server.port=8080(default)
 
-- drone.config.min-battery-level = 25.00 
-> Minimum Battery percentage
-- drone.config.preload-db-data = true
-> By enabling this the application will automatically pre-load the medication data into H2 db, otherwise you'll have to insert data manually to Medications table
+- database = paidy
+- db username = 
+- db password = 
+- refer SystemConfig class for more configs
 > 
 
-- drone.config.scheduler.enabled=false
-- drone.config.scheduler.interval=5000
-> Will enable the periodic task to check drone battery and the time gap between each cycle
-> 
-- Database config and h2 database configurations 
-> Keep as it is unless you want to change db configs
-> 
-- H2 Database URL
-> url=jdbc:h2:file:/opt/Musala/DroneApp/m2_db/drone_db
-> 
-- logging.file.name = /opt/Musala/DroneApp/logs/drone_api_common.log
-> Complete log file name and the location, please change according to the environment
->
-- log.battery.audit.name = /opt/Musala/DroneApp/logs/drone_battery_audit.log
-> A separate log for the periodic task scheduler
-> 
+
 ### Once you complete the configuring project you can run the project 
-> To run the project you can use either the IDE or the provided docker image, below you can find the docker run instructions
-> 
-#### Docker instructions
-
-- download the docker image from this url - https://drive.google.com/drive/folders/1Dzmew-CZvBaSUrXlmOlZnrdhvQUYNWF3?usp=sharing
-- docker load -i DroneDockerImage.tar\
-- docker run -p **port**:5569 **imageID/name**
-> Give a port to **port**, and give either the imageId or the name to **imageID/name**
+> To run the project you can use either the IDE or an application server to deploy the restaurant.war file
 
 --- 
 
@@ -100,102 +86,60 @@ Create a restaurant application which accepts menu items from various serving st
 
 - Requests MediaType: **APPLICATION_JSON**
 - Responses MediaType: **APPLICATION_JSON**
+- authorization : **Basic Auth**
+- application login username = **paidy**
+- application login password = **password**
 
-#### Register a drone
-- drone register url (Post) = **localhost:5569/v1/drone/register/**
-> Request : {
-"serialNumber" : "0001",
-"model":"LIGHT_WEIGHT",
-"weightLimit" : 100,
-"battery" : 50
-}
-> 
-> Response : {
-"serialNumber": "0005",
-"responseMessage": "Drone registered"
-}
-> 
-#### Get available drones
-- available drones url (Get) - **localhost:5559/v1/drone/available/**
-- > Respinse : {
-  "responseMessage": "Drone registered",
-  "drones": [
-  {
-  "serialNumber": "0003",
-  "model": "LIGHT_WEIGHT",
-  "weightLimit": 10.0,
-  "battery": 50.0,
-  "state": "IDLE"
-  },
-  {
-  "serialNumber": "0001",
-  "model": "LIGHT_WEIGHT",
-  "weightLimit": 10.0,
-  "battery": 50.0,
-  "state": "IDLE"
-  },
-  {
-  "serialNumber": "0002",
-  "model": "LIGHT_WEIGHT",
-  "weightLimit": 10.0,
-  "battery": 50.0,
-  "state": "IDLE"
-  },
-  {
-  "serialNumber": "0005",
-  "model": "LIGHT_WEIGHT",
-  "weightLimit": 100.0,
-  "battery": 50.0,
-  "state": "IDLE"
-  }
-  ]
-  }
-  > 
-#### Check drone battery level
-- Drone battery check url (Post) - **localhost:5569/v1/drone/battery/**
-> Request : {
-"serialNumber" : "0001"
-}
-> Response : {
-"serialNumber": "0001",
-"responseMessage": "Drone battery level loaded",
-"batteryLevel": "50.0%"
-}
-> 
-#### Get loaded medication list of a drone
-- Drone loaded medication url (Post) - **localhost:5569/v1/drone/loaded-medications/**
-> Request : {
-"serialNumber" : "0001"
-}
-> Response : {
-"serialNumber": "0001",
-"responseMessage": "Medication List loaded",
-"totalWeight": 10.0,
-"medicationList": [
-{
-"id": "40289f108316e7b4018316ed30f30000",
-"serialNumber": null,
-"code": "MEDI_10",
-"state": "LOADED",
-"weight": 10.0,
-"location": "kandy"
-}
+#### Get items for a given table number
+- url (GET) = **http://localhost:8080/restaurant/webapi/item/{tableNo}**
+> Response : [
+    {
+        "cookTime": 9,
+        "itemName": "item 2",
+        "itemNo": 2,
+        "quantity": 3,
+        "status": 3
+    },{
+        "cookTime": 5,
+        "itemName": "item 6",
+        "itemNo": 6,
+        "quantity": 3,
+        "status": 3
+    }
 ]
-}
 > 
-#### Load medications to a drone
-- load medication to a drone url (post) - **localhost:5569/v1/drone/load/**
+#### Get details of an item by giving item number and table number
+- url (GET) = **http://localhost:8080/restaurant/webapi/item/{tableNo}/{ItemNo}**
+- > Response : {
+    "cookTime": 9,
+    "itemName": "item 1",
+    "itemNo": 1,
+    "quantity": 3,
+    "status": 3
+}
+  > 
+#### Create Order
+- url (POST) = **http://localhost:8080/restaurant/webapi/order/create**
 > Request : {
-"serialNumber" : "0001",
-"medicationCode":"MEDI_10",
-"location" : "kandy",
-"loadingComplete" : false
+    "orderId" : "Order 1",
+    "tableId":1,
+    "notes":"Less spicy",
+    "items":[{
+        "itemNo":1,
+        "quantity":2   
+    }, {
+        "itemNo":2,
+        "quantity":3   
+    }
+    ]
 }
-> Response : {
-"serialNumber": "0001",
-"responseMessage": "Medication loaded successfully"
-}
+> Response : The Order Placed!
 > 
+#### Delete Order
+- url (GET) = **http://localhost:8080/restaurant/webapi/order/delete/{tableNo}/{ItemNo}**
+
+> Response : Item Deleted from the Order
+
 ---
 
 ### END

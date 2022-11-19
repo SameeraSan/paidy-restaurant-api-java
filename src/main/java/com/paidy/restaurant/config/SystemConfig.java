@@ -16,7 +16,7 @@ public class SystemConfig {
 	public static String DB_PASSWORD = "password";
 	public static int 	 DB_MIN_POOL_SIZE = 10;
 	public static int 	 DB_MAX_POOL_SIZE = 50;
-	public static int 	 DB_CON_TIMEOUT = 15000;
+	public static int 	 DB_CON_TIMEOUT = 5000;
 	
 	// Status
 	public static final int ST_ACTIVE = 1;
