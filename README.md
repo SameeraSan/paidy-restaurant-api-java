@@ -19,14 +19,6 @@ Create a restaurant application which accepts menu items from various serving st
 - The application MAY assign a length of time for the item to prepare as a random time between 5-15 minutes.
 - The application MAY keep the length of time for the item to prepare static (in other words, the time does not have to be counted down in real time, only upon item creation and then removed with the item upon item deletion).
 
-#### Functional requirements
-
-- There is no need for UI;
-- Prevent the drone from being loaded with more weight that it can carry;
-- Prevent the drone from being in LOADING state if the battery level is **below 25
-%**;
-- Introduce a periodic task to check drones battery levels and create history/audi
-  t event log for this.
 ---
 
 ### Given Assumptions
@@ -133,6 +125,8 @@ Create a restaurant application which accepts menu items from various serving st
     }
     ]
 }
+>
+>
 > Response : The Order Placed!
 > 
 #### Delete Order
