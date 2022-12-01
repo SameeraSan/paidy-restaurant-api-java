@@ -87,7 +87,7 @@ Create a restaurant application which accepts menu items from various serving st
 - application login password = **password**
 
 #### Get items for a given table number
-- url (GET) = **http://localhost:8080/restaurant/webapi/item/{tableNo}**
+- url (GET) = **http://localhost:8080/restaurant/v1/item/{tableNo}**
 > Response : [
     {
         "cookTime": 9,
@@ -105,7 +105,7 @@ Create a restaurant application which accepts menu items from various serving st
 ]
 > 
 #### Get details of an item by giving item number and table number
-- url (GET) = **http://localhost:8080/restaurant/webapi/item/{tableNo}/{ItemNo}**
+- url (GET) = **http://localhost:8080/restaurant/v1/item/{tableNo}/{ItemNo}**
 - > Response : {
     "cookTime": 9,
     "itemName": "item 1",
@@ -115,7 +115,7 @@ Create a restaurant application which accepts menu items from various serving st
 }
   > 
 #### Create Order
-- url (POST) = **http://localhost:8080/restaurant/webapi/order/create**
+- url (POST) = **http://localhost:8080/restaurant/v1/order/create**
 > Request : {
     "orderId" : "Order 1",
     "tableId":1,
@@ -134,7 +134,7 @@ Create a restaurant application which accepts menu items from various serving st
 > Response : The Order Placed!
 > 
 #### Delete Order
-- url (GET) = **http://localhost:8080/restaurant/webapi/order/delete/{tableNo}/{ItemNo}**
+- url (GET) = **http://localhost:8080/restaurant/v1/order/delete/{tableNo}/{ItemNo}**
 
 > Response : Item Deleted from the Order
 
