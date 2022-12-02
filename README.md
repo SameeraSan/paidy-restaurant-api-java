@@ -65,7 +65,7 @@ Create a restaurant application which accepts menu items from various serving st
 - server.port=8080(default)
 
 - database = paidy
-- db username = paidy
+- db username = postgres
 - db password = password
 - refer SystemConfig class for more configs
 > 
